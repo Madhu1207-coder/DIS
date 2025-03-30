@@ -1,0 +1,8 @@
+Here's a Python script implementing the Data Encryption Standard (DES) for encrypting and decrypting files using the PyCryptodome library. It reads a file, encrypts it, and saves the output, ensuring secure sharing.
+
+Des File Encryption
+How It Works:
+Generates a random 8-byte DES key (save it for decryption).
+Encrypts a given file (input.txt), pads data, and uses CBC mode with an IV.
+Saves the IV + ciphertext in encrypted.des.
+Decrypts encrypted.des back to decrypted.txt using the same key.

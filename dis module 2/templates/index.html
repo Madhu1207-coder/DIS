@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Encryption Tool</title>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('https://securitybrief.com.au/uploads/story/2022/05/31/GettyImages-1331943958__1_.webp');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            padding-top: 80px;
+        }
+        header {
+            background: rgba(0, 0, 0, 0.7);
+            width: 100%;
+            padding: 20px 0;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+        header h1 {
+            margin: 0;
+            color: #f04e31;
+            font-size: 2rem;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            width: 80%;
+            margin-top: 60px;
+        }
+        .box {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 20px;
+            width: 300px;
+            text-align: center;
+            box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.5);
+            margin: 20px;
+        }
+        .box i {
+            font-size: 40px;
+            margin-bottom: 10px;
+            color: #17c3b2;
+        }
+        .box-left {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 50%;
+            width: 320px;
+            height: 320px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            box-shadow: 0px 0px 15px rgba(23, 195, 178, 0.8);
+            border: 3px solid #17c3b2;
+            overflow: hidden;
+            position: relative;
+        }
+        input[type="file"] {
+            margin: 10px 0;
+            padding: 8px;
+            background: rgba(103, 215, 249, 0.8);
+            border-radius: 5px;
+            border: none;
+            color: black;
+        }
+        button {
+            background-color: #f04e31;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        button:hover {
+            background-color: #d94a28;
+        }
+        img {
+            max-width: 80%;
+            max-height: 80%;
+            display: none;
+            border-radius: 10px;
+            border: 2px solid #17c3b2;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .download-btn {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1>Image Encryption Tool</h1>
+    </header>
+
+    <!-- Container for Left and Right Sections -->
+    <div class="container">
+        <!-- Encryption Box -->
+        <div class="box">
+            <i class="fas fa-lock"></i>
+            <h2>Encrypt an Image</h2>
+            <form id="encryptForm">
+                <input type="file" id="encryptInput" name="image" accept="image/*" required>
+                <div class="button-container">
+                    <button type="submit">Encrypt Image</button>
+                </div>
+            </form>
+            <button id="downloadEncryptBtn" class="download-btn">Download Encrypted Image</button>
+        </div>
+
+        <!-- Circular Box for Encrypted Image -->
+        <div class="box-left">
+            <img id="encryptedImage" src="" alt="Encrypted Image">
+        </div>
+
+        <!-- Decryption Box -->
+        <div class="box">
+            <i class="fas fa-unlock"></i>
+            <h2>Decrypt an Image</h2>
+            <form id="decryptForm">
+                <input type="file" id="decryptInput" name="image" accept="image/*" required>
+                <div class="button-container">
+                    <button type="submit">Decrypt Image</button>
+                </div>
+            </form>
+            <button id="downloadDecryptBtn" class="download-btn">Download Decrypted Image</button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('encryptForm').onsubmit = async function(event) {
+            event.preventDefault();
+            const formData = new FormData();
+            formData.append('image', document.getElementById('encryptInput').files[0]);
+
+            const response = await fetch('/upload', {
+                method: 'POST',
+                body: formData
+            });
+
+            const data = await response.json();
+            const encryptedImg = document.getElementById('encryptedImage');
+            encryptedImg.src = data.encrypted_image;
+            encryptedImg.style.display = 'block';
+
+            const downloadEncryptBtn = document.getElementById('downloadEncryptBtn');
+            downloadEncryptBtn.style.display = 'block';
+            downloadEncryptBtn.onclick = function() {
+                const a = document.createElement('a');
+                a.href = data.encrypted_image;
+                a.download = "encrypted_image.png";
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            };
+        };
+
+        document.getElementById('decryptForm').onsubmit = async function(event) {
+            event.preventDefault();
+            const formData = new FormData();
+            formData.append('image', document.getElementById('decryptInput').files[0]);
+
+            const response = await fetch('/decrypt', {
+                method: 'POST',
+                body: formData
+            });
+
+            const data = await response.json();
+            const decryptedImg = document.createElement('img');
+            decryptedImg.src = data.decrypted_image;
+            decryptedImg.style.display = 'block';
+            decryptedImg.style.maxWidth = "100%";
+            decryptedImg.style.border = "2px solid #17c3b2";
+            decryptedImg.style.borderRadius = "10px";
+
+            document.querySelector('.box-left').appendChild(decryptedImg);
+
+            const downloadDecryptBtn = document.getElementById('downloadDecryptBtn');
+            downloadDecryptBtn.style.display = 'block';
+            downloadDecryptBtn.onclick = function() {
+                const a = document.createElement('a');
+                a.href = data.decrypted_image;
+                a.download = "decrypted_image.png";
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            };
+        };
+    </script>
+
+</body>
+</html>

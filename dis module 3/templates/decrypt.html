@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decrypt File</title>
+
+    <!-- Google Fonts (Futuristic Orbitron Font) -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+    <style>
+        /* Fullscreen futuristic background */
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end; /* Align to right */
+            background: url('https://img.freepik.com/free-photo/futuristic-scene-with-high-tech-robot-used-construction-industry_23-2151329542.jpg?semt=ais_hybrid') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Orbitron', sans-serif; /* Sci-Fi Font */
+            color: white;
+            overflow: hidden;
+        }
+
+        /* Sci-fi glowing container */
+        .container {
+            background: rgba(0, 0, 0, 0.85);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.8); /* Neon glow */
+            max-width: 450px;
+            width: 90%;
+            margin-right: 5%;
+            text-align: center;
+            animation: slideIn 1.5s ease-out;
+            border: 1px solid rgba(0, 255, 255, 0.6); /* Sci-Fi Border */
+        }
+
+        /* Slide-in animation */
+        @keyframes slideIn {
+            from {
+                transform: translateX(100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Futuristic heading */
+        h2 {
+            font-size: 28px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: cyan;
+            animation: neonGlow 1.5s infinite alternate;
+        }
+
+        /* Neon Glow Effect */
+        @keyframes neonGlow {
+            from {
+                text-shadow: 0 0 5px cyan, 0 0 10px cyan, 0 0 15px cyan;
+            }
+            to {
+                text-shadow: 0 0 10px cyan, 0 0 20px cyan, 0 0 30px cyan;
+            }
+        }
+
+        /* Input fields */
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 15px 0;
+            border: 1px solid cyan;
+            border-radius: 5px;
+            font-size: 16px;
+            background: rgba(0, 255, 255, 0.1);
+            color: white;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        /* Glowing input effect */
+        input:focus {
+            outline: none;
+            background: rgba(0, 255, 255, 0.2);
+            box-shadow: 0 0 10px cyan;
+        }
+
+        /* Cyberpunk button */
+        button {
+            width: 100%;
+            padding: 12px;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            background: linear-gradient(90deg, cyan, blue);
+            color: black;
+            transition: 0.3s;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Button hover effect */
+        button:hover {
+            background: linear-gradient(90deg, blue, cyan);
+            box-shadow: 0 0 15px cyan;
+            transform: scale(1.05);
+        }
+
+        /* Cyber icons */
+        .icon {
+            font-size: 22px;
+            margin-right: 8px;
+            color: cyan;
+        }
+
+        /* Error message */
+        p.error {
+            color: red;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        /* Floating sci-fi effect */
+        .sci-fi-effect {
+            position: absolute;
+            top: 10%;
+            left: 5%;
+            font-size: 100px;
+            color: rgba(0, 255, 255, 0.2);
+            animation: floatEffect 6s infinite ease-in-out;
+        }
+
+        /* Floating animation */
+        @keyframes floatEffect {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(15px); }
+            100% { transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sci-Fi Floating Text -->
+    <div class="sci-fi-effect">
+        <i class="fas fa-microchip"></i>
+    </div>
+
+    <!-- Main Form -->
+    <div class="container">
+        <h2><i class="fas fa-key icon"></i> Enter Key to Decrypt</h2>
+
+        <form action="/decrypt" method="post">
+            <input type="hidden" name="filename" value="{{ filename }}">
+            <input type="text" name="key" placeholder="Enter Decryption Key (16 hex digits)" required>
+            <button type="submit"><i class="fas fa-unlock icon"></i> Decrypt</button>
+        </form>
+
+        {% if decrypted_file %}
+            <p>File Decrypted Successfully</p>
+            <a href="{{ url_for('download', filename=decrypted_file) }}">
+                <button><i class="fas fa-download icon"></i> Download Decrypted File</button>
+            </a>
+        {% elif error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+    </div>
+
+</body>
+</html>

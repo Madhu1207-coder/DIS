@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>File Encrypted</title>
+    <style>
+        /* Full-screen background with 3D Parallax Effect */
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center; /* Align content to the center vertically */
+            justify-content: flex-start; /* Move content to the left */
+            height: 100vh;
+            overflow: hidden;
+            perspective: 1000px; /* Adds depth */
+            font-family: Arial, sans-serif;
+            text-align: left;
+            padding-left: 80px; /* Adjust spacing from the left */
+            color: white; /* Text color for visibility */
+        }
+
+        /* Background Layer for 3D Effect */
+        .background {
+            position: absolute;
+            top: -10%;
+            left: -10%;
+            width: 120%;
+            height: 120%;
+            background-image: url('https://t3.ftcdn.net/jpg/07/66/87/68/360_F_766876856_XDPvm1sg90Ar5Hwf1jRRIHM4FNCXmhKj.jpg');
+            background-size: cover;
+            background-position: center;
+            transform: translateZ(-300px) scale(1.3);
+            z-index: -2;
+            animation: moveBackground 15s infinite alternate linear;
+        }
+
+        /* 3D Parallax Motion Animation */
+        @keyframes moveBackground {
+            0% { transform: translateZ(-300px) scale(1.3) translateY(-20px); }
+            50% { transform: translateZ(-250px) scale(1.25) translateY(20px); }
+            100% { transform: translateZ(-300px) scale(1.3) translateY(-20px); }
+        }
+
+        /* Overlay for better text visibility */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: -1;
+        }
+
+        /* Styling for the content box */
+        .container {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+            max-width: 400px;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        /* Keyframe animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes glow {
+            0% { text-shadow: 0 0 5px #fff; }
+            50% { text-shadow: 0 0 15px #ff66b2, 0 0 30px #ff3385; }
+            100% { text-shadow: 0 0 5px #fff; }
+        }
+
+        /* Stylish heading */
+        h2 {
+            font-size: 28px;
+            font-weight: bold;
+            animation: glow 2s infinite alternate;
+        }
+
+        /* Animated key text */
+        p strong {
+            display: inline-block;
+            font-size: 18px;
+            color: #ff66b2;
+            font-weight: bold;
+            animation: fadeIn 1.5s ease-in-out, pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Button styling */
+        button {
+            background: linear-gradient(to right, #ff66b2, #ff3385);
+            color: white;
+            font-size: 18px;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            font-weight: bold;
+            margin-top: 15px;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        button:hover {
+            background: linear-gradient(to right, #ff3385, #ff0055);
+            box-shadow: 0 0 15px rgba(255, 51, 133, 0.8);
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="background"></div> <!-- 3D Background -->
+    <div class="overlay"></div> <!-- Overlay for better visibility -->
+    
+    <div class="container">
+        <h2>File Encrypted Successfully</h2>
+        <p>Key (Save this to decrypt later!): <strong>{{ key }}</strong></p>
+        <a href="{{ url_for('download', filename=encrypted_file) }}">
+            <button>Download Encrypted File</button>
+        </a>
+    </div>
+</body>
+</html>

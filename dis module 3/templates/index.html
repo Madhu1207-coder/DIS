@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Encryption</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        /* Background Animation */
+        @keyframes moveBackground {
+            0% { background-position: 0 0; }
+            100% { background-position: 100% 100%; }
+        }
+
+        body {
+            background-image: url('https://img.freepik.com/premium-photo/robot-chatting-isolated-violet-background-chatbot-surrounded-by-multiple-speech-bubbles_690082-32611.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            position: relative;
+            animation: moveBackground 10s linear infinite alternate;
+        }
+
+        /* Slide-in & Rotate Animation */
+        @keyframes textSlideRotate {
+            0% {
+                transform: translateX(-100vw) rotate(-360deg);
+                opacity: 0;
+            }
+            80% {
+                transform: translateX(10px) rotate(10deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(0) rotate(0deg);
+            }
+        }
+
+        /* Floating Animation */
+        @keyframes floating {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
+
+        /* Wrapper */
+        .wrapper {
+            position: absolute;
+            left: 10%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        /* Title - Rotating & Floating */
+        .title, .form-box {
+            font-size: 22px;
+            font-weight: bold;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: textSlideRotate 2.5s ease-in-out forwards, floating 3s ease-in-out infinite 2.5s;
+            margin-bottom: 20px;
+        }
+
+        .title i, .form-box i {
+            font-size: 28px;
+            color: #ffeb3b;
+        }
+
+        /* Form Box - Rotating & Floating */
+        .form-box {
+            font-size: 18px;
+            animation: textSlideRotate 3s ease-in-out forwards, floating 3s ease-in-out infinite 3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Form */
+        input {
+            padding: 8px;
+            border-radius: 5px;
+            border: none;
+            width: 100%;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 8px 15px;
+            border: none;
+            background: #ff4081;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        button i {
+            font-size: 18px;
+        }
+
+        button:hover {
+            background: #e91e63;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Rotating & Floating Title with Icon -->
+        <div class="title">
+            <i class="fa-solid fa-folder-open"></i> Upload any File
+        </div>
+
+        <!-- Rotating & Floating Form Box -->
+        <div class="form-box">
+            <i class="fa-solid fa-file-upload"></i> Choose your file
+            <form action="/upload" method="post" enctype="multipart/form-data">
+                <input type="file" name="file" required>
+                <button type="submit">
+                    <i class="fa-solid fa-cloud-arrow-up"></i> Upload
+                </button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
